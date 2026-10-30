@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environment
+.venv/
+
+# Data and models are never committed (scripts rebuild / download them)
+data/
+models/
+
+# Large files that could end up in run folders by mistake
+outputs/**/*.bin
+outputs/**/*.safetensors
+outputs/**/*.pt
+outputs/**/checkpoint-*/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

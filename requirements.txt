@@ -1,0 +1,25 @@
+# Pinned direct dependencies (tested on Windows, Python 3.12.10).
+# On Colab, install everything except torch: Colab ships its own GPU build.
+
+# Deep learning / BERT
+torch==2.15.0
+transformers==5.22.0
+datasets==5.1.0
+accelerate==1.15.0
+
+# NER
+spacy==3.8.18
+
+# Baseline, metrics, data handling
+scikit-learn==1.9.1
+pandas==3.1.0
+numpy==2.5.4
+PyYAML==6.0.3
+matplotlib==3.11.2
+
+# App
+streamlit==1.66.1
+
+# Dev: tests and notebooks
+pytest==9.2.0
+ipykernel==7.4.0
