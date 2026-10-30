@@ -1,0 +1,23 @@
+# TF-IDF + logistic regression baseline.
+# Run: python -m src.baseline --config configs/baseline.yaml
+name: baseline_tfidf_logreg
+seed: 42                  # main model (saved train/val/test split)
+seeds: [0, 1, 2, 3, 4]    # multi-seed estimate: each seed re-splits train/val, test fixed
+subset_size: null         # e.g. 200 for a quick local run (stratified subset of train)
+
+tfidf:
+  lowercase: true
+  ngram_range: [1, 2]     # single words and pairs of words
+  min_df: 2               # ignore terms seen in only one report
+  max_df: 0.9             # ignore terms in more than 90% of reports
+  sublinear_tf: true      # use 1 + log(count): a word seen 20 times is not 20x as important
+
+logreg:
+  class_weight: balanced  # small classes weigh more, to counter imbalance
+  max_iter: 2000
+
+# C = inverse regularization strength; chosen by macro-F1 on the val split.
+search:
+  C: [0.1, 1, 10, 100, 1000]
+
+model_dir: models/baseline

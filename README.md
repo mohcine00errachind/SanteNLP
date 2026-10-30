@@ -14,7 +14,7 @@ An NLP pipeline for English medical reports:
 |---|---|
 | 0. Setup | done |
 | 1. Data / EDA | done |
-| 2. Baseline | — |
+| 2. Baseline | done |
 | 3. NER | — |
 | 4. BERT classification | — |
 | 5. Evaluation | — |
@@ -28,6 +28,7 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 python -m src.data --config configs/data.yaml   # download + clean + split both datasets
+python -m src.baseline --config configs/baseline.yaml   # add --subset 200 for a quick run
 pytest
 ```
 
@@ -109,9 +110,40 @@ Conversion: discontinuous entities (1 among the mapped labels) are skipped, and 
 - **Report type may be a shortcut.** 41% of reports are operative notes, but Neurology has none (0%), against 31–63% for every other class. A model could learn "operative note → not Neurology" instead of medical content. The evaluation phase checks scores separately on operative and non-operative reports.
 - **Domain shift for NER.** The NER model is trained on published case reports (MACCROBAT) and applied to dictated transcriptions (MTSamples), so it will do worse on MTSamples than on its own test set.
 
+## Results
+
+### Specialty classification
+
+All scores are on the same fixed test set (193 reports).
+
+| Model | Test macro-F1 (5 seeds) | Test macro-F1 (main model) | Accuracy (main) |
+|---|---:|---:|---:|
+| TF-IDF + logistic regression | **0.940 ± 0.003** | 0.954 | 0.948 |
+| Bio_ClinicalBERT | *Phase 4* | | |
+
+**How the seeds work.** TF-IDF + logistic regression is deterministic: on the same data, every seed gives exactly the same model (checked in `tests/test_baseline.py`). The seeds therefore vary the *data* instead. Each seed draws a new stratified train/val split from the saved train+val reports, and the test set stays fixed. The ± is the sample standard deviation over the 5 seeds. BERT will use the same 5 train/val splits.
+
+**Baseline setup.** Word unigrams and bigrams, `sublinear_tf`, `min_df=2`, balanced class weights. C is chosen on the val split from {0.1, 1, 10, 100, 1000}; the main model picks C = 100. Config: [`configs/baseline.yaml`](configs/baseline.yaml).
+
+**Main model per class (test):**
+
+| Specialty | Precision | Recall | F1 | n |
+|---|---:|---:|---:|---:|
+| Cardiovascular / Pulmonary | 0.91 | 0.98 | 0.94 | 50 |
+| ENT - Otolaryngology | 1.00 | 1.00 | 1.00 | 12 |
+| Gastroenterology | 0.92 | 0.86 | 0.89 | 28 |
+| Neurology | 0.86 | 1.00 | 0.92 | 18 |
+| Obstetrics / Gynecology | 1.00 | 1.00 | 1.00 | 21 |
+| Ophthalmology | 1.00 | 1.00 | 1.00 | 11 |
+| Orthopedic | 1.00 | 0.97 | 0.98 | 33 |
+| Urology | 1.00 | 0.80 | 0.89 | 20 |
+
+**What the baseline tells us**
+- **The task is easy for a bag-of-words model.** Specialties have very distinctive vocabulary (colonoscopy, carpal tunnel, fetal). This is not caused by duplicates: no test report is closer than cosine 0.86 to any training report. BERT has little room to improve, and with 193 test reports, one error is worth about 0.5 points.
+- **All 10 errors are non-operative reports.** The error rate is 0% on the 86 operative test reports and 9.3% (10 / 107) on the non-operative ones (consults, follow-ups). These notes contain long general histories and get pulled toward Cardio (5 errors) or Neurology (3 errors), the one class made only of non-operative notes. This is the report-type effect seen in the EDA.
+
 ## Plan for the next phases
 
-- **Phase 2 — Baseline:** TF-IDF + logistic regression with class weights; macro-F1 reported as mean ± std over 5 seeds.
 - **Phase 3 — NER:** EntityRuler dictionary baseline vs a trained spaCy NER model; entity-level precision/recall/F1 per label.
 - **Phase 4 — BERT:** fine-tune Bio_ClinicalBERT on Colab. Since 62.6% of reports exceed 512 tokens, compare at least two ways to handle long reports:
   1. **plain truncation:** keep the first 512 tokens;
@@ -126,7 +158,7 @@ Conversion: discontinuous entities (1 among the mapped labels) are skipped, and 
 configs/     hyperparameters and data settings (yaml)
 data/        raw/ and processed/ data (not committed)
 notebooks/   01_eda.ipynb
-src/         utils.py, data.py, (baseline.py, ner.py, classify.py, evaluate.py)
+src/         utils.py, data.py, baseline.py, evaluate.py, (ner.py, classify.py)
 tests/       pytest tests
 outputs/runs/ one folder per experiment: config + metrics
 ```

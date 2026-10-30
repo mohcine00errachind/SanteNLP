@@ -1,0 +1,194 @@
+test_row,label,pred
+0,Obstetrics / Gynecology,Obstetrics / Gynecology
+1,Orthopedic,Orthopedic
+2,Ophthalmology,Ophthalmology
+3,Orthopedic,Orthopedic
+4,Ophthalmology,Ophthalmology
+5,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+6,Gastroenterology,Gastroenterology
+7,Urology,Urology
+8,Obstetrics / Gynecology,Obstetrics / Gynecology
+9,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+10,Neurology,Neurology
+11,Gastroenterology,Gastroenterology
+12,ENT - Otolaryngology,ENT - Otolaryngology
+13,Neurology,Neurology
+14,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+15,ENT - Otolaryngology,ENT - Otolaryngology
+16,Urology,Urology
+17,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+18,Neurology,Neurology
+19,Gastroenterology,Gastroenterology
+20,Gastroenterology,Gastroenterology
+21,Orthopedic,Orthopedic
+22,Orthopedic,Orthopedic
+23,Obstetrics / Gynecology,Obstetrics / Gynecology
+24,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+25,Gastroenterology,Gastroenterology
+26,Urology,Cardiovascular / Pulmonary
+27,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+28,Gastroenterology,Gastroenterology
+29,Gastroenterology,Gastroenterology
+30,Neurology,Neurology
+31,Orthopedic,Orthopedic
+32,Obstetrics / Gynecology,Obstetrics / Gynecology
+33,Gastroenterology,Gastroenterology
+34,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+35,Gastroenterology,Gastroenterology
+36,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+37,Neurology,Neurology
+38,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+39,Neurology,Neurology
+40,Urology,Urology
+41,Gastroenterology,Gastroenterology
+42,Gastroenterology,Gastroenterology
+43,Orthopedic,Orthopedic
+44,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+45,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+46,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+47,Obstetrics / Gynecology,Obstetrics / Gynecology
+48,Neurology,Neurology
+49,Orthopedic,Orthopedic
+50,ENT - Otolaryngology,ENT - Otolaryngology
+51,Neurology,Neurology
+52,Urology,Gastroenterology
+53,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+54,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+55,Neurology,Neurology
+56,Orthopedic,Orthopedic
+57,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+58,Ophthalmology,Ophthalmology
+59,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+60,Neurology,Neurology
+61,Orthopedic,Orthopedic
+62,Obstetrics / Gynecology,Obstetrics / Gynecology
+63,Orthopedic,Orthopedic
+64,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+65,Urology,Urology
+66,Orthopedic,Orthopedic
+67,Gastroenterology,Cardiovascular / Pulmonary
+68,Cardiovascular / Pulmonary,Neurology
+69,Obstetrics / Gynecology,Obstetrics / Gynecology
+70,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+71,ENT - Otolaryngology,ENT - Otolaryngology
+72,Obstetrics / Gynecology,Obstetrics / Gynecology
+73,Gastroenterology,Gastroenterology
+74,Urology,Urology
+75,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+76,Urology,Urology
+77,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+78,Orthopedic,Orthopedic
+79,Ophthalmology,Ophthalmology
+80,Orthopedic,Neurology
+81,Orthopedic,Orthopedic
+82,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+83,Urology,Urology
+84,Neurology,Neurology
+85,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+86,Obstetrics / Gynecology,Obstetrics / Gynecology
+87,ENT - Otolaryngology,ENT - Otolaryngology
+88,Orthopedic,Orthopedic
+89,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+90,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+91,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+92,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+93,Neurology,Neurology
+94,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+95,Orthopedic,Orthopedic
+96,Urology,Urology
+97,Orthopedic,Orthopedic
+98,Ophthalmology,Ophthalmology
+99,Orthopedic,Orthopedic
+100,Gastroenterology,Gastroenterology
+101,Gastroenterology,Gastroenterology
+102,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+103,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+104,Obstetrics / Gynecology,Obstetrics / Gynecology
+105,Orthopedic,Orthopedic
+106,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+107,Orthopedic,Orthopedic
+108,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+109,Obstetrics / Gynecology,Obstetrics / Gynecology
+110,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+111,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+112,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+113,ENT - Otolaryngology,ENT - Otolaryngology
+114,Orthopedic,Orthopedic
+115,Obstetrics / Gynecology,Obstetrics / Gynecology
+116,Gastroenterology,Gastroenterology
+117,ENT - Otolaryngology,ENT - Otolaryngology
+118,Obstetrics / Gynecology,Obstetrics / Gynecology
+119,Gastroenterology,Gastroenterology
+120,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+121,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+122,Orthopedic,Orthopedic
+123,Neurology,Neurology
+124,ENT - Otolaryngology,ENT - Otolaryngology
+125,Gastroenterology,Cardiovascular / Pulmonary
+126,Neurology,Neurology
+127,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+128,ENT - Otolaryngology,ENT - Otolaryngology
+129,Ophthalmology,Ophthalmology
+130,Obstetrics / Gynecology,Obstetrics / Gynecology
+131,Orthopedic,Orthopedic
+132,Orthopedic,Orthopedic
+133,Gastroenterology,Gastroenterology
+134,Neurology,Neurology
+135,Neurology,Neurology
+136,Urology,Cardiovascular / Pulmonary
+137,Gastroenterology,Gastroenterology
+138,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+139,Ophthalmology,Ophthalmology
+140,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+141,Gastroenterology,Gastroenterology
+142,Urology,Urology
+143,Gastroenterology,Cardiovascular / Pulmonary
+144,Orthopedic,Orthopedic
+145,Ophthalmology,Ophthalmology
+146,Urology,Urology
+147,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+148,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+149,Orthopedic,Orthopedic
+150,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+151,Ophthalmology,Ophthalmology
+152,Urology,Urology
+153,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+154,Orthopedic,Orthopedic
+155,Gastroenterology,Gastroenterology
+156,Urology,Urology
+157,Urology,Urology
+158,Orthopedic,Orthopedic
+159,Gastroenterology,Gastroenterology
+160,Ophthalmology,Ophthalmology
+161,Obstetrics / Gynecology,Obstetrics / Gynecology
+162,Orthopedic,Orthopedic
+163,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+164,Obstetrics / Gynecology,Obstetrics / Gynecology
+165,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+166,ENT - Otolaryngology,ENT - Otolaryngology
+167,Urology,Urology
+168,Orthopedic,Orthopedic
+169,ENT - Otolaryngology,ENT - Otolaryngology
+170,Obstetrics / Gynecology,Obstetrics / Gynecology
+171,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+172,Urology,Urology
+173,Neurology,Neurology
+174,Gastroenterology,Gastroenterology
+175,Obstetrics / Gynecology,Obstetrics / Gynecology
+176,Orthopedic,Orthopedic
+177,Obstetrics / Gynecology,Obstetrics / Gynecology
+178,Gastroenterology,Gastroenterology
+179,ENT - Otolaryngology,ENT - Otolaryngology
+180,Obstetrics / Gynecology,Obstetrics / Gynecology
+181,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+182,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+183,Gastroenterology,Gastroenterology
+184,Orthopedic,Orthopedic
+185,Ophthalmology,Ophthalmology
+186,Neurology,Neurology
+187,Urology,Gastroenterology
+188,Cardiovascular / Pulmonary,Cardiovascular / Pulmonary
+189,Urology,Urology
+190,Orthopedic,Orthopedic
+191,Gastroenterology,Neurology
+192,Obstetrics / Gynecology,Obstetrics / Gynecology

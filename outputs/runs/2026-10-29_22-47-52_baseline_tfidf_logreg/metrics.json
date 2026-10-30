@@ -1,0 +1,196 @@
+{
+  "main": {
+    "train_size": 897,
+    "best_C": 100,
+    "val_macro_f1": 0.9552,
+    "test": {
+      "accuracy": 0.9482,
+      "macro_precision": 0.961,
+      "macro_recall": 0.9509,
+      "macro_f1": 0.9535,
+      "per_class": {
+        "Cardiovascular / Pulmonary": {
+          "precision": 0.9074,
+          "recall": 0.98,
+          "f1": 0.9423,
+          "support": 50
+        },
+        "ENT - Otolaryngology": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        },
+        "Gastroenterology": {
+          "precision": 0.9231,
+          "recall": 0.8571,
+          "f1": 0.8889,
+          "support": 28
+        },
+        "Neurology": {
+          "precision": 0.8571,
+          "recall": 1.0,
+          "f1": 0.9231,
+          "support": 18
+        },
+        "Obstetrics / Gynecology": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 21
+        },
+        "Ophthalmology": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 11
+        },
+        "Orthopedic": {
+          "precision": 1.0,
+          "recall": 0.9697,
+          "f1": 0.9846,
+          "support": 33
+        },
+        "Urology": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "support": 20
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Cardiovascular / Pulmonary",
+          "ENT - Otolaryngology",
+          "Gastroenterology",
+          "Neurology",
+          "Obstetrics / Gynecology",
+          "Ophthalmology",
+          "Orthopedic",
+          "Urology"
+        ],
+        "matrix": [
+          [
+            49,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            24,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            18,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            21,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            32,
+            0
+          ],
+          [
+            2,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "seeds": [
+    {
+      "seed": 0,
+      "best_C": 1000,
+      "val_macro_f1": 0.9691,
+      "test_macro_f1": 0.9355,
+      "test_accuracy": 0.9326
+    },
+    {
+      "seed": 1,
+      "best_C": 100,
+      "val_macro_f1": 0.9559,
+      "test_macro_f1": 0.942,
+      "test_accuracy": 0.9378
+    },
+    {
+      "seed": 2,
+      "best_C": 10,
+      "val_macro_f1": 0.9558,
+      "test_macro_f1": 0.942,
+      "test_accuracy": 0.9378
+    },
+    {
+      "seed": 3,
+      "best_C": 10,
+      "val_macro_f1": 0.9591,
+      "test_macro_f1": 0.9404,
+      "test_accuracy": 0.9378
+    },
+    {
+      "seed": 4,
+      "best_C": 1000,
+      "val_macro_f1": 0.961,
+      "test_macro_f1": 0.9417,
+      "test_accuracy": 0.9378
+    }
+  ],
+  "test_macro_f1_mean": 0.9403,
+  "test_macro_f1_std": 0.0028
+}

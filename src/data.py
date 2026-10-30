@@ -159,6 +159,29 @@ def load_mtsamples_splits() -> dict[str, pd.DataFrame]:
     return {name: pd.read_csv(out_dir / f"{name}.csv") for name in ["train", "val", "test"]}
 
 
+def resplit_train_val(splits: dict[str, pd.DataFrame], seed: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Draw a new stratified train/val split from the saved train+val reports.
+
+    The test set is never touched. Used for the multi-seed runs: seed s gives
+    the same train/val split to every model, so models stay comparable.
+    """
+    pool = pd.concat([splits["train"], splits["val"]], ignore_index=True)
+    # An integer test_size means "exactly this many rows" (a fraction can round up by one).
+    train, val = train_test_split(
+        pool, test_size=len(splits["val"]), stratify=pool["label"], random_state=seed
+    )
+    return train, val
+
+
+def stratified_subset(df: pd.DataFrame, n: int | None, seed: int) -> pd.DataFrame:
+    """Return n rows with the same class proportions (for quick local runs).
+    n = None (or n >= len(df)) returns the full table."""
+    if n is None or n >= len(df):
+        return df
+    subset, _ = train_test_split(df, train_size=n, stratify=df["label"], random_state=seed)
+    return subset
+
+
 # ---------------------------------------------------------------------------
 # MACCROBAT
 # ---------------------------------------------------------------------------

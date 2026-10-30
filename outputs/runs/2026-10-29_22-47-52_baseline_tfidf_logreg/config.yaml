@@ -1,0 +1,28 @@
+name: baseline_tfidf_logreg
+seed: 42
+seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
+subset_size: null
+tfidf:
+  lowercase: true
+  ngram_range:
+  - 1
+  - 2
+  min_df: 2
+  max_df: 0.9
+  sublinear_tf: true
+logreg:
+  class_weight: balanced
+  max_iter: 2000
+search:
+  C:
+  - 0.1
+  - 1
+  - 10
+  - 100
+  - 1000
+model_dir: models/baseline
