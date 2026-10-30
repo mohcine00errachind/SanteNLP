@@ -7,8 +7,9 @@ transformers==5.22.0
 datasets==5.1.0
 accelerate==1.15.0
 
-# NER
+# NER (en_core_web_md: only its pretrained word vectors are used)
 spacy==3.8.18
+en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
 
 # Baseline, metrics, data handling
 scikit-learn==1.9.1

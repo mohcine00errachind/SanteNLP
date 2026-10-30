@@ -1,0 +1,768 @@
+{
+  "sentences": {
+    "train": 3203,
+    "val": 682,
+    "test": 656
+  },
+  "dictionary": {
+    "params": {
+      "min_count": 1,
+      "min_precision": 0.3
+    },
+    "n_patterns": 1832,
+    "val_macro_f1": 0.5749,
+    "test": {
+      "exact": {
+        "macro_f1": 0.5796,
+        "micro": {
+          "p": 0.7037,
+          "r": 0.5079,
+          "f": 0.59
+        },
+        "per_label": {
+          "SYMPTOM": {
+            "p": 0.6929,
+            "r": 0.6125,
+            "f": 0.6502
+          },
+          "TREATMENT": {
+            "p": 0.723,
+            "r": 0.3929,
+            "f": 0.5091
+          }
+        }
+      },
+      "overlap": {
+        "macro_f1": 0.6342,
+        "micro": {
+          "p": 0.7694,
+          "r": 0.5541,
+          "f": 0.6442
+        },
+        "per_label": {
+          "SYMPTOM": {
+            "p": 0.7507,
+            "r": 0.6613,
+            "f": 0.7031
+          },
+          "TREATMENT": {
+            "p": 0.8028,
+            "r": 0.4362,
+            "f": 0.5653
+          }
+        }
+      },
+      "macro_f1": 0.5796,
+      "per_label": {
+        "SYMPTOM": {
+          "p": 0.6929,
+          "r": 0.6125,
+          "f": 0.6502
+        },
+        "TREATMENT": {
+          "p": 0.723,
+          "r": 0.3929,
+          "f": 0.5091
+        }
+      }
+    }
+  },
+  "spacy_ner": {
+    "seeds": [
+      {
+        "seed": 0,
+        "best_epoch": 10,
+        "val_macro_f1": 0.5704,
+        "test": {
+          "exact": {
+            "macro_f1": 0.6144,
+            "micro": {
+              "p": 0.6548,
+              "r": 0.5808,
+              "f": 0.6156
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.6416,
+                "r": 0.6148,
+                "f": 0.628
+              },
+              "TREATMENT": {
+                "p": 0.6719,
+                "r": 0.5434,
+                "f": 0.6008
+              }
+            }
+          },
+          "overlap": {
+            "macro_f1": 0.6901,
+            "micro": {
+              "p": 0.7342,
+              "r": 0.6513,
+              "f": 0.6903
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.707,
+                "r": 0.6775,
+                "f": 0.6919
+              },
+              "TREATMENT": {
+                "p": 0.7697,
+                "r": 0.6224,
+                "f": 0.6883
+              }
+            }
+          },
+          "macro_f1": 0.6144,
+          "per_label": {
+            "SYMPTOM": {
+              "p": 0.6416,
+              "r": 0.6148,
+              "f": 0.628
+            },
+            "TREATMENT": {
+              "p": 0.6719,
+              "r": 0.5434,
+              "f": 0.6008
+            }
+          }
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 9056.9,
+            "val_macro_f1": 0.21
+          },
+          {
+            "epoch": 2,
+            "loss": 5092.2,
+            "val_macro_f1": 0.5105
+          },
+          {
+            "epoch": 3,
+            "loss": 4409.6,
+            "val_macro_f1": 0.5283
+          },
+          {
+            "epoch": 4,
+            "loss": 3659.5,
+            "val_macro_f1": 0.5503
+          },
+          {
+            "epoch": 5,
+            "loss": 3230.1,
+            "val_macro_f1": 0.5672
+          },
+          {
+            "epoch": 6,
+            "loss": 2954.1,
+            "val_macro_f1": 0.5355
+          },
+          {
+            "epoch": 7,
+            "loss": 2719.9,
+            "val_macro_f1": 0.5496
+          },
+          {
+            "epoch": 8,
+            "loss": 2426.0,
+            "val_macro_f1": 0.5507
+          },
+          {
+            "epoch": 9,
+            "loss": 2206.1,
+            "val_macro_f1": 0.5454
+          },
+          {
+            "epoch": 10,
+            "loss": 2060.0,
+            "val_macro_f1": 0.5704
+          },
+          {
+            "epoch": 11,
+            "loss": 1941.5,
+            "val_macro_f1": 0.5616
+          },
+          {
+            "epoch": 12,
+            "loss": 1833.5,
+            "val_macro_f1": 0.5524
+          },
+          {
+            "epoch": 13,
+            "loss": 1732.2,
+            "val_macro_f1": 0.5606
+          },
+          {
+            "epoch": 14,
+            "loss": 1612.6,
+            "val_macro_f1": 0.5591
+          },
+          {
+            "epoch": 15,
+            "loss": 1521.4,
+            "val_macro_f1": 0.5668
+          }
+        ]
+      },
+      {
+        "seed": 1,
+        "best_epoch": 6,
+        "val_macro_f1": 0.5755,
+        "test": {
+          "exact": {
+            "macro_f1": 0.5934,
+            "micro": {
+              "p": 0.695,
+              "r": 0.5261,
+              "f": 0.5989
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.6816,
+                "r": 0.6009,
+                "f": 0.6387
+              },
+              "TREATMENT": {
+                "p": 0.716,
+                "r": 0.4439,
+                "f": 0.548
+              }
+            }
+          },
+          "overlap": {
+            "macro_f1": 0.6539,
+            "micro": {
+              "p": 0.7624,
+              "r": 0.5796,
+              "f": 0.6586
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.7421,
+                "r": 0.652,
+                "f": 0.6941
+              },
+              "TREATMENT": {
+                "p": 0.7942,
+                "r": 0.5,
+                "f": 0.6137
+              }
+            }
+          },
+          "macro_f1": 0.5934,
+          "per_label": {
+            "SYMPTOM": {
+              "p": 0.6816,
+              "r": 0.6009,
+              "f": 0.6387
+            },
+            "TREATMENT": {
+              "p": 0.716,
+              "r": 0.4439,
+              "f": 0.548
+            }
+          }
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 8979.3,
+            "val_macro_f1": 0.2034
+          },
+          {
+            "epoch": 2,
+            "loss": 5294.0,
+            "val_macro_f1": 0.5079
+          },
+          {
+            "epoch": 3,
+            "loss": 4099.8,
+            "val_macro_f1": 0.5551
+          },
+          {
+            "epoch": 4,
+            "loss": 3601.4,
+            "val_macro_f1": 0.5478
+          },
+          {
+            "epoch": 5,
+            "loss": 3209.4,
+            "val_macro_f1": 0.5348
+          },
+          {
+            "epoch": 6,
+            "loss": 2904.7,
+            "val_macro_f1": 0.5755
+          },
+          {
+            "epoch": 7,
+            "loss": 2581.8,
+            "val_macro_f1": 0.55
+          },
+          {
+            "epoch": 8,
+            "loss": 2329.2,
+            "val_macro_f1": 0.5314
+          },
+          {
+            "epoch": 9,
+            "loss": 2152.2,
+            "val_macro_f1": 0.5583
+          },
+          {
+            "epoch": 10,
+            "loss": 1967.9,
+            "val_macro_f1": 0.5363
+          },
+          {
+            "epoch": 11,
+            "loss": 1854.7,
+            "val_macro_f1": 0.5669
+          }
+        ]
+      },
+      {
+        "seed": 2,
+        "best_epoch": 13,
+        "val_macro_f1": 0.5763,
+        "test": {
+          "exact": {
+            "macro_f1": 0.5764,
+            "micro": {
+              "p": 0.6736,
+              "r": 0.5115,
+              "f": 0.5815
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.6605,
+                "r": 0.5824,
+                "f": 0.619
+              },
+              "TREATMENT": {
+                "p": 0.6939,
+                "r": 0.4337,
+                "f": 0.5338
+              }
+            }
+          },
+          "overlap": {
+            "macro_f1": 0.6459,
+            "micro": {
+              "p": 0.7504,
+              "r": 0.5723,
+              "f": 0.6494
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.7211,
+                "r": 0.6357,
+                "f": 0.6757
+              },
+              "TREATMENT": {
+                "p": 0.7959,
+                "r": 0.5026,
+                "f": 0.6161
+              }
+            }
+          },
+          "macro_f1": 0.5764,
+          "per_label": {
+            "SYMPTOM": {
+              "p": 0.6605,
+              "r": 0.5824,
+              "f": 0.619
+            },
+            "TREATMENT": {
+              "p": 0.6939,
+              "r": 0.4337,
+              "f": 0.5338
+            }
+          }
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 8749.0,
+            "val_macro_f1": 0.2261
+          },
+          {
+            "epoch": 2,
+            "loss": 5026.7,
+            "val_macro_f1": 0.5171
+          },
+          {
+            "epoch": 3,
+            "loss": 4137.6,
+            "val_macro_f1": 0.5333
+          },
+          {
+            "epoch": 4,
+            "loss": 3529.2,
+            "val_macro_f1": 0.5526
+          },
+          {
+            "epoch": 5,
+            "loss": 3212.3,
+            "val_macro_f1": 0.558
+          },
+          {
+            "epoch": 6,
+            "loss": 2894.3,
+            "val_macro_f1": 0.5655
+          },
+          {
+            "epoch": 7,
+            "loss": 2645.4,
+            "val_macro_f1": 0.5574
+          },
+          {
+            "epoch": 8,
+            "loss": 2396.8,
+            "val_macro_f1": 0.575
+          },
+          {
+            "epoch": 9,
+            "loss": 2235.8,
+            "val_macro_f1": 0.5647
+          },
+          {
+            "epoch": 10,
+            "loss": 2072.8,
+            "val_macro_f1": 0.5724
+          },
+          {
+            "epoch": 11,
+            "loss": 1884.1,
+            "val_macro_f1": 0.5392
+          },
+          {
+            "epoch": 12,
+            "loss": 1767.6,
+            "val_macro_f1": 0.544
+          },
+          {
+            "epoch": 13,
+            "loss": 1627.7,
+            "val_macro_f1": 0.5763
+          },
+          {
+            "epoch": 14,
+            "loss": 1601.6,
+            "val_macro_f1": 0.5311
+          },
+          {
+            "epoch": 15,
+            "loss": 1468.4,
+            "val_macro_f1": 0.5711
+          },
+          {
+            "epoch": 16,
+            "loss": 1426.4,
+            "val_macro_f1": 0.541
+          },
+          {
+            "epoch": 17,
+            "loss": 1324.4,
+            "val_macro_f1": 0.5546
+          },
+          {
+            "epoch": 18,
+            "loss": 1167.6,
+            "val_macro_f1": 0.5411
+          }
+        ]
+      },
+      {
+        "seed": 3,
+        "best_epoch": 5,
+        "val_macro_f1": 0.5644,
+        "test": {
+          "exact": {
+            "macro_f1": 0.586,
+            "micro": {
+              "p": 0.6789,
+              "r": 0.5164,
+              "f": 0.5866
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.6536,
+                "r": 0.5429,
+                "f": 0.5932
+              },
+              "TREATMENT": {
+                "p": 0.7127,
+                "r": 0.4872,
+                "f": 0.5788
+              }
+            }
+          },
+          "overlap": {
+            "macro_f1": 0.6451,
+            "micro": {
+              "p": 0.7428,
+              "r": 0.5687,
+              "f": 0.6442
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.7011,
+                "r": 0.5824,
+                "f": 0.6362
+              },
+              "TREATMENT": {
+                "p": 0.7985,
+                "r": 0.5536,
+                "f": 0.6539
+              }
+            }
+          },
+          "macro_f1": 0.586,
+          "per_label": {
+            "SYMPTOM": {
+              "p": 0.6536,
+              "r": 0.5429,
+              "f": 0.5932
+            },
+            "TREATMENT": {
+              "p": 0.7127,
+              "r": 0.4872,
+              "f": 0.5788
+            }
+          }
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 8812.6,
+            "val_macro_f1": 0.2262
+          },
+          {
+            "epoch": 2,
+            "loss": 4913.7,
+            "val_macro_f1": 0.497
+          },
+          {
+            "epoch": 3,
+            "loss": 4454.1,
+            "val_macro_f1": 0.4896
+          },
+          {
+            "epoch": 4,
+            "loss": 3581.8,
+            "val_macro_f1": 0.5397
+          },
+          {
+            "epoch": 5,
+            "loss": 3260.2,
+            "val_macro_f1": 0.5644
+          },
+          {
+            "epoch": 6,
+            "loss": 2860.4,
+            "val_macro_f1": 0.5579
+          },
+          {
+            "epoch": 7,
+            "loss": 2588.7,
+            "val_macro_f1": 0.5571
+          },
+          {
+            "epoch": 8,
+            "loss": 2360.4,
+            "val_macro_f1": 0.5501
+          },
+          {
+            "epoch": 9,
+            "loss": 2159.8,
+            "val_macro_f1": 0.5402
+          },
+          {
+            "epoch": 10,
+            "loss": 1992.6,
+            "val_macro_f1": 0.5457
+          }
+        ]
+      },
+      {
+        "seed": 4,
+        "best_epoch": 6,
+        "val_macro_f1": 0.5606,
+        "test": {
+          "exact": {
+            "macro_f1": 0.571,
+            "micro": {
+              "p": 0.6468,
+              "r": 0.514,
+              "f": 0.5728
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.6458,
+                "r": 0.5499,
+                "f": 0.594
+              },
+              "TREATMENT": {
+                "p": 0.6481,
+                "r": 0.4745,
+                "f": 0.5479
+              }
+            }
+          },
+          "overlap": {
+            "macro_f1": 0.6267,
+            "micro": {
+              "p": 0.7095,
+              "r": 0.5638,
+              "f": 0.6283
+            },
+            "per_label": {
+              "SYMPTOM": {
+                "p": 0.703,
+                "r": 0.5986,
+                "f": 0.6466
+              },
+              "TREATMENT": {
+                "p": 0.7178,
+                "r": 0.5255,
+                "f": 0.6068
+              }
+            }
+          },
+          "macro_f1": 0.571,
+          "per_label": {
+            "SYMPTOM": {
+              "p": 0.6458,
+              "r": 0.5499,
+              "f": 0.594
+            },
+            "TREATMENT": {
+              "p": 0.6481,
+              "r": 0.4745,
+              "f": 0.5479
+            }
+          }
+        },
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 9084.3,
+            "val_macro_f1": 0.2709
+          },
+          {
+            "epoch": 2,
+            "loss": 5029.0,
+            "val_macro_f1": 0.516
+          },
+          {
+            "epoch": 3,
+            "loss": 4166.9,
+            "val_macro_f1": 0.5291
+          },
+          {
+            "epoch": 4,
+            "loss": 3531.3,
+            "val_macro_f1": 0.5525
+          },
+          {
+            "epoch": 5,
+            "loss": 3294.9,
+            "val_macro_f1": 0.5458
+          },
+          {
+            "epoch": 6,
+            "loss": 2894.9,
+            "val_macro_f1": 0.5606
+          },
+          {
+            "epoch": 7,
+            "loss": 2633.0,
+            "val_macro_f1": 0.5556
+          },
+          {
+            "epoch": 8,
+            "loss": 2389.1,
+            "val_macro_f1": 0.5569
+          },
+          {
+            "epoch": 9,
+            "loss": 2198.3,
+            "val_macro_f1": 0.5417
+          },
+          {
+            "epoch": 10,
+            "loss": 2041.8,
+            "val_macro_f1": 0.5551
+          },
+          {
+            "epoch": 11,
+            "loss": 1925.7,
+            "val_macro_f1": 0.5543
+          }
+        ]
+      }
+    ],
+    "test_macro_f1_mean": 0.5882,
+    "test_macro_f1_std": 0.017,
+    "test_overlap_macro_f1_mean": 0.6523,
+    "test_overlap_macro_f1_std": 0.0233,
+    "kept_model_test": {
+      "exact": {
+        "macro_f1": 0.5764,
+        "micro": {
+          "p": 0.6736,
+          "r": 0.5115,
+          "f": 0.5815
+        },
+        "per_label": {
+          "SYMPTOM": {
+            "p": 0.6605,
+            "r": 0.5824,
+            "f": 0.619
+          },
+          "TREATMENT": {
+            "p": 0.6939,
+            "r": 0.4337,
+            "f": 0.5338
+          }
+        }
+      },
+      "overlap": {
+        "macro_f1": 0.6459,
+        "micro": {
+          "p": 0.7504,
+          "r": 0.5723,
+          "f": 0.6494
+        },
+        "per_label": {
+          "SYMPTOM": {
+            "p": 0.7211,
+            "r": 0.6357,
+            "f": 0.6757
+          },
+          "TREATMENT": {
+            "p": 0.7959,
+            "r": 0.5026,
+            "f": 0.6161
+          }
+        }
+      },
+      "macro_f1": 0.5764,
+      "per_label": {
+        "SYMPTOM": {
+          "p": 0.6605,
+          "r": 0.5824,
+          "f": 0.619
+        },
+        "TREATMENT": {
+          "p": 0.6939,
+          "r": 0.4337,
+          "f": 0.5338
+        }
+      }
+    }
+  }
+}

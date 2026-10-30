@@ -15,7 +15,7 @@ An NLP pipeline for English medical reports:
 | 0. Setup | done |
 | 1. Data / EDA | done |
 | 2. Baseline | done |
-| 3. NER | — |
+| 3. NER | done |
 | 4. BERT classification | — |
 | 5. Evaluation | — |
 | 6. Streamlit app | — |
@@ -29,6 +29,8 @@ python -m venv .venv
 pip install -r requirements.txt
 python -m src.data --config configs/data.yaml   # download + clean + split both datasets
 python -m src.baseline --config configs/baseline.yaml   # add --subset 200 for a quick run
+python -m src.ner --config configs/ner.yaml                              # dictionary + spaCy NER (~10 min, CPU)
+python -m src.ner --config configs/ner.yaml --vectors en_core_web_md     # same, with word vectors
 pytest
 ```
 
@@ -142,15 +144,73 @@ All scores are on the same fixed test set (193 reports).
 - **The task is easy for a bag-of-words model.** Specialties have very distinctive vocabulary (colonoscopy, carpal tunnel, fetal). This is not caused by duplicates: no test report is closer than cosine 0.86 to any training report. BERT has little room to improve, and with 193 test reports, one error is worth about 0.5 points.
 - **All 10 errors are non-operative reports.** The error rate is 0% on the 86 operative test reports and 9.3% (10 / 107) on the non-operative ones (consults, follow-ups). These notes contain long general histories and get pulled toward Cardio (5 errors) or Neurology (3 errors), the one class made only of non-operative notes. This is the report-type effect seen in the EDA.
 
+### Entity extraction (MACCROBAT)
+
+All scores are on the MACCROBAT test split (30 documents, 656 sentences, 431 SYMPTOM and 392 TREATMENT entities). Models train on the 140 training documents, cut into 3,203 sentences.
+
+| Model | Exact macro-F1 | Overlap macro-F1 | SYMPTOM P / R / F1 | TREATMENT P / R / F1 |
+|---|---:|---:|---|---|
+| Dictionary (EntityRuler, 1,832 phrases) | 0.580 | 0.634 | 0.69 / 0.61 / **0.65** | 0.72 / 0.39 / 0.51 |
+| spaCy NER, no vectors (5 seeds) | 0.588 ± 0.017 | 0.652 ± 0.023 | 0.66 / 0.58 / 0.62 | 0.69 / 0.48 / 0.56 |
+| spaCy NER + `en_core_web_md` vectors (5 seeds) | **0.602 ± 0.005** | **0.670 ± 0.008** | 0.68 / 0.58 / 0.62 | 0.73 / 0.49 / **0.58** |
+
+Per-label scores are exact match, averaged over seeds. ± is the sample std over 5 seeds (initialization, shuffling and dropout change; the data does not). The dictionary is deterministic.
+
+**Models**
+- **Dictionary:** every phrase annotated in the training documents, kept if it was annotated at least `min_count` times and if, of all its occurrences in the training text, at least `min_precision` are annotated with that label. Both thresholds are chosen on val (best: 1 and 0.3). The precision filter drops words like "treatment" that are usually not annotated.
+- **spaCy NER:** spaCy's default NER architecture (CNN token encoder + transition-based parser), trained from scratch with early stopping on val macro-F1. The "+ vectors" version also reads 300-dimensional pretrained word vectors from `en_core_web_md` (general English). [scispaCy](https://allenai.github.io/scispacy/)'s biomedical models would fit the domain better, but they require `numpy<2`, which conflicts with this project's stack.
+- **Kept for the app:** the vectors model with the best val score (`models/ner/spacy_ner_vectors`).
+
+**Exact vs overlap.** *Exact* counts a prediction only if start, end and label all match the annotation. *Overlap* accepts any prediction that overlaps an annotated entity of the same label: predicting "murmur" for the gold span "regurgitation murmur" is wrong under exact match but correct under overlap. Overlap F1 is 0.05–0.07 higher for every model, so part of the errors are boundary disagreements, not missed entities. Most errors are still real misses.
+
+**What the comparison shows (honestly)**
+- **Vectors vs no vectors:** +0.014 exact macro-F1 on test, which is *within* the no-vectors seed std (0.017), and the per-seed test scores overlap (0.571–0.614 vs 0.594–0.606). On test alone this is not a clear improvement. Two things are clear, though:
+  - Vectors make training much more **stable** (std 0.005 vs 0.017).
+  - On val, every vectors run (0.602–0.613) beats every no-vectors run (0.561–0.576).
+- **Vectors vs dictionary: a small improvement, not a clear win.**
+  - The vectors model scores 0.602 ± 0.005 exact macro-F1 against 0.580 (+0.022), and 0.670 ± 0.008 overlap against 0.634 (+0.036). All 5 vectors runs score above the dictionary on test (lowest: 0.594).
+  - The gap is larger than the vectors model's seed std, but it is only about 1.3× the no-vectors seed std (0.017).
+  - The seed std only measures training randomness, not how much scores would change on a different set of test documents. With only 30 test documents, that second source of noise is probably larger.
+  - The dictionary is still better on SYMPTOM.
+- **The trained models are not much better than a word list.** With 3,203 training sentences and general-English vectors, the statistical model learns little beyond the training vocabulary. A biomedical transformer (optional in Phase 4) is the natural next step.
+
+**SYMPTOM vs TREATMENT**
+- **SYMPTOM** is the dictionary's best label (F1 0.65, higher than the trained models' 0.62). Symptoms are a fairly closed vocabulary that repeats from report to report (pain, fever, dyspnea, nausea), so a list of seen phrases covers much of the test set.
+- **TREATMENT** is open-ended: drug names and procedure descriptions vary a lot, and many test treatments never appear in the training documents. The dictionary finds only 39% of them (recall 0.39). The trained models generalize somewhat better (recall 0.48–0.49, F1 0.56–0.58).
+- For every model, precision (about 0.7) is higher than recall (0.4–0.6): the models miss entities more often than they invent them.
+
+**Domain shift: MTSamples examples.** There are no gold annotations for MTSamples, so this is a qualitative check. We ran the dictionary, the no-vectors model and the vectors model on the beginning of three MTSamples test reports:
+- **Orthopedic operative note:**
+  - All models find the shoulder pain.
+  - All three miss the procedures listed under "procedure performed" (an arthroscopy, a decompression and a tendon repair). In MACCROBAT, treatments appear inside sentences, not as numbered lists of procedure names.
+  - The no-vectors model tags a body location as a symptom. The vectors model avoids this but tags an anesthesia-technique word as a treatment.
+- **Gastroenterology referral letter:**
+  - The symptoms are found (bleeding, weight loss, nausea, vomiting), but they are reported **even when negated** (the letter says the patient has *no* nausea).
+  - Both trained models tag the verb "denies" itself as a symptom.
+  - No model finds the medications (a brand-name heart drug and eye drops).
+- **Neurology history note:**
+  - Most symptoms are found (gait difficulty, weakness, masses, lymphadenopathy).
+  - The **vectors model finds 5 of the 8 drugs** in a comma-separated medication list; the dictionary and the no-vectors model find none. This is the clearest benefit of the vectors.
+  - Some diseases from the past-history list (e.g. hypercholesterolemia) are tagged as symptoms.
+
+Takeaways for the app:
+- **Negation** must be handled separately (planned rule-based flag, Phase 6). MACCROBAT annotates negated symptoms as entities, so the models learn to tag them.
+- **Medication and procedure lists** in transcriptions are the weakest point.
+- **Disease vs symptom confusion** remains. The dictionary also learned "hypertension" as a SYMPTOM, which means MACCROBAT annotators sometimes labeled it `Sign_symptom`.
+
 ## Plan for the next phases
 
-- **Phase 3 — NER:** EntityRuler dictionary baseline vs a trained spaCy NER model; entity-level precision/recall/F1 per label.
 - **Phase 4 — BERT:** fine-tune Bio_ClinicalBERT on Colab. Since 62.6% of reports exceed 512 tokens, compare at least two ways to handle long reports:
   1. **plain truncation:** keep the first 512 tokens;
   2. **head + tail:** keep the first and last tokens (e.g. 128 + 382), since the end of a report often holds the assessment and plan;
   3. *(if time allows)* **chunking:** split the report into 512-token windows and average the predicted probabilities.
-- **Phase 5 — Evaluation:** compare every model with the baseline, show confusion matrices, and check the report-type shortcut (scores on operative vs non-operative test reports).
-- **Phase 6 — Streamlit app**, **Phase 7 — README / tests.**
+
+  Besides overall macro-F1, compare BERT and the baseline **on the 107 non-operative test reports**, where all 10 baseline errors are, and list which of those 10 errors BERT fixes or repeats.
+
+  *Optional:* fine-tune Bio_ClinicalBERT for **token classification** (SYMPTOM / TREATMENT) on MACCROBAT on Colab, with the same document split, and compare it with the spaCy models and the dictionary.
+- **Phase 5 — Evaluation:** compare every model with the baseline, show confusion matrices, and check the report-type shortcut (scores on operative vs non-operative test reports). If BERT does not clearly beat the baseline, say so plainly, with the reason (distinctive vocabulary, small test set). A difference smaller than the seed std is not an improvement.
+- **Phase 6 — Streamlit app:** paste a report, see highlighted entities and the predicted specialty. Includes a **rule-based negation flag**: an entity is marked "negated" when it follows a cue such as "no", "denies" or "negative for" in the same clause. The NER models tag "nausea" in "no nausea" because MACCROBAT annotates negated symptoms too.
+- **Phase 7 — README / tests.**
 
 ## Project structure
 
@@ -158,7 +218,7 @@ All scores are on the same fixed test set (193 reports).
 configs/     hyperparameters and data settings (yaml)
 data/        raw/ and processed/ data (not committed)
 notebooks/   01_eda.ipynb
-src/         utils.py, data.py, baseline.py, evaluate.py, (ner.py, classify.py)
+src/         utils.py, data.py, baseline.py, evaluate.py, ner.py, (classify.py)
 tests/       pytest tests
 outputs/runs/ one folder per experiment: config + metrics
 ```

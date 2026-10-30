@@ -1,0 +1,23 @@
+# NER: dictionary baseline (EntityRuler) vs trained spaCy NER.
+# Run: python -m src.ner --config configs/ner.yaml
+name: ner_spacy
+seeds: [0, 1, 2, 3, 4]    # spaCy training is random (init, shuffling, dropout): 5 runs -> mean +/- std
+subset_size: null         # e.g. 20 = train on 20 documents (quick local run)
+labels: [SYMPTOM, TREATMENT]
+vectors: null             # or en_core_web_md (pretrained word vectors); CLI: --vectors en_core_web_md
+
+# Dictionary baseline: phrases annotated in the training documents.
+# A phrase is kept if it was annotated at least min_count times AND, among all
+# its occurrences in the training text, at least min_precision of them are
+# annotated with that label. Both are chosen on the val split from these grids.
+dictionary:
+  min_count: [1, 2, 3]
+  min_precision: [0.1, 0.2, 0.3, 0.5, 0.7]
+
+training:
+  max_epochs: 40
+  patience: 5             # stop when val F1 has not improved for 5 epochs
+  dropout: 0.2
+  batch_size: 16          # sentences per update
+
+model_dir: models/ner
