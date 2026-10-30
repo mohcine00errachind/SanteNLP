@@ -29,6 +29,7 @@ scikit-learn, streamlit. OS: Windows.
 - Never add a Co-Authored-By line (or any AI attribution) to commit messages.
 - Never change git config (name/email are set by the author).
 - Never commit data or model files.
+- Push to origin (public GitHub repo) after each commit, but ask the author first every time.
 
 ## Commands
 - Activate env: .venv\Scripts\activate

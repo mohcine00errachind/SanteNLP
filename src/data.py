@@ -159,6 +159,13 @@ def load_mtsamples_splits() -> dict[str, pd.DataFrame]:
     return {name: pd.read_csv(out_dir / f"{name}.csv") for name in ["train", "val", "test"]}
 
 
+def fingerprint(df: pd.DataFrame) -> int:
+    """A number that changes if any value in the table changes. Used to check
+    that Colab rebuilds exactly the same split as the local machine (comparing
+    files would fail: Windows and Linux write different line endings)."""
+    return int(pd.util.hash_pandas_object(df, index=False).sum() % (2**63))
+
+
 def resplit_train_val(splits: dict[str, pd.DataFrame], seed: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Draw a new stratified train/val split from the saved train+val reports.
 

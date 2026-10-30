@@ -11,6 +11,9 @@ __pycache__/
 data/
 models/
 
+# Quick local smoke runs (not real results)
+outputs/smoke/
+
 # Large files that could end up in run folders by mistake
 outputs/**/*.bin
 outputs/**/*.safetensors

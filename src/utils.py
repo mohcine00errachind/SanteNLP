@@ -3,6 +3,7 @@
 import json
 import os
 import random
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -33,6 +34,16 @@ def load_config(path: str | Path) -> dict:
     """Read a YAML config file into a plain Python dict."""
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
+
+
+def git_commit() -> str | None:
+    """Hash of the current git commit, to record exactly which code produced a run
+    (useful on Colab, where the code is cloned). None if git is not available."""
+    try:
+        result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True)
+        return result.stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def save_run(name: str, config: dict, metrics: dict, runs_dir: Path = RUNS_DIR) -> Path:

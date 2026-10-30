@@ -16,7 +16,7 @@ An NLP pipeline for English medical reports:
 | 1. Data / EDA | done |
 | 2. Baseline | done |
 | 3. NER | done |
-| 4. BERT classification | — |
+| 4. BERT classification | code ready, training on Colab |
 | 5. Evaluation | — |
 | 6. Streamlit app | — |
 | 7. README / tests | — |
@@ -31,8 +31,21 @@ python -m src.data --config configs/data.yaml   # download + clean + split both 
 python -m src.baseline --config configs/baseline.yaml   # add --subset 200 for a quick run
 python -m src.ner --config configs/ner.yaml                              # dictionary + spaCy NER (~10 min, CPU)
 python -m src.ner --config configs/ner.yaml --vectors en_core_web_md     # same, with word vectors
+python -m src.classify --smoke                  # BERT: tiny CPU check (full training: Colab, below)
 pytest
 ```
+
+### Training BERT on Colab
+
+Fine-tuning needs a GPU, so it runs on Google Colab with [`notebooks/colab_train_bert.ipynb`](notebooks/colab_train_bert.ipynb):
+
+1. In Colab: *File → Open notebook → GitHub*, paste this repo's URL and open `notebooks/colab_train_bert.ipynb`.
+2. *Runtime → Change runtime type → T4 GPU*, then run the cells in order. The notebook mounts Google Drive, clones the repo, installs the pinned requirements (except torch, which Colab provides), rebuilds the data, checks that the split is identical to the local one, and trains.
+3. Results are saved to `MyDrive/SanteNLP/`. Copy them into the project; with Google Drive for desktop:
+   ```powershell
+   Copy-Item -Recurse "G:\My Drive\SanteNLP\outputs\runs\*" outputs\runs\
+   Copy-Item -Recurse "G:\My Drive\SanteNLP\models\bert_specialty" models\
+   ```
 
 Data is downloaded by `src/data.py` into `data/` and is never committed.
 EDA: [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb).
@@ -217,8 +230,12 @@ Takeaways for the app:
 ```
 configs/     hyperparameters and data settings (yaml)
 data/        raw/ and processed/ data (not committed)
-notebooks/   01_eda.ipynb
-src/         utils.py, data.py, baseline.py, evaluate.py, ner.py, (classify.py)
+notebooks/   01_eda.ipynb, colab_train_bert.ipynb
+src/         utils.py, data.py, baseline.py, evaluate.py, ner.py, classify.py
 tests/       pytest tests
 outputs/runs/ one folder per experiment: config + metrics
 ```
+
+## License
+
+Code: [MIT](LICENSE) © 2026 Mohcine Errachid. The datasets are not part of this repository and keep their own terms (MACCROBAT: CC BY 4.0; MTSamples: see the Data section).

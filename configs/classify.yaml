@@ -1,0 +1,28 @@
+# Fine-tuned Bio_ClinicalBERT for specialty classification.
+# Run (GPU, e.g. Colab): python -m src.classify --config configs/classify.yaml
+# Quick CPU check:       python -m src.classify --smoke
+name: bert_specialty
+model_name: emilyalsentzer/Bio_ClinicalBERT
+model_revision: d5892b39a4adaed74b92212a44081509db72f87b   # pinned commit (same as the EDA tokenizer)
+
+# Same protocol as the baseline
+seed: 42                  # main model (saved train/val/test split)
+seeds: [0, 1, 2, 3, 4]    # each seed re-splits train/val, test fixed -> mean +/- std
+subset_size: null         # train on N reports (quick runs)
+eval_subset_size: null    # score on N val/test reports (smoke runs only)
+
+# How reports longer than BERT's limit are shortened
+strategies: [head, head_tail]
+max_length: 512           # including [CLS] and [SEP]
+head_tokens: 128          # head_tail: first 128 tokens + last 382 tokens
+
+training:
+  epochs: 4
+  learning_rate: 2.0e-5
+  batch_size: 16
+  eval_batch_size: 32
+  weight_decay: 0.01
+  warmup_ratio: 0.1       # learning rate rises during the first 10% of steps, then decays
+  fp16: true              # half precision on GPU (faster, less memory); ignored on CPU
+
+model_dir: models/bert_specialty   # one sub-folder per strategy (main model only)
