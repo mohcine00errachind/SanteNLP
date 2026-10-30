@@ -1,0 +1,47 @@
+# Data preparation settings. Run: python -m src.data --config configs/data.yaml
+seed: 42
+
+mtsamples:
+  # The 8 specialties we classify (each has >= 75 clean reports).
+  classes:
+    - Cardiovascular / Pulmonary
+    - Orthopedic
+    - Gastroenterology
+    - Obstetrics / Gynecology
+    - Urology
+    - Neurology
+    - ENT - Otolaryngology
+    - Ophthalmology
+  # Labels that describe the document type or are catch-alls, not a specialty.
+  # MTSamples files most reports under one of these AND under a real specialty.
+  non_specialty_labels:
+    - Surgery
+    - Consult - History and Phy.
+    - SOAP / Chart / Progress Notes
+    - Discharge Summary
+    - Emergency Room Reports
+    - Office Notes
+    - Letters
+    - IME-QME-Work Comp etc.
+    - General Medicine
+    - Radiology
+  # Reports shorter than this are truncated scrapes (checked by hand: below
+  # ~50 words almost all stop mid-sentence; above, they are short but complete).
+  min_words: 50
+  val_size: 0.15
+  test_size: 0.15
+
+maccrobat:
+  # Original MACCROBAT label -> our label. Every other label is ignored.
+  label_map:
+    Sign_symptom: SYMPTOM
+    Medication: TREATMENT
+    Therapeutic_procedure: TREATMENT
+  # Split by document (200 case reports).
+  val_size: 0.15
+  test_size: 0.15
+
+eda:
+  tokenizer: emilyalsentzer/Bio_ClinicalBERT
+  tokenizer_revision: d5892b39a4adaed74b92212a44081509db72f87b
+  max_tokens: 512

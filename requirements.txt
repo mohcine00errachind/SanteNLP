@@ -20,6 +20,8 @@ matplotlib==3.11.2
 # App
 streamlit==1.66.1
 
-# Dev: tests and notebooks
+# Dev: tests and notebooks (nbformat/nbclient run notebooks from the command line)
 pytest==9.2.0
 ipykernel==7.4.0
+nbformat==5.11.1
+nbclient==0.11.0
