@@ -40,7 +40,7 @@ pytest
 Fine-tuning needs a GPU, so it runs on Google Colab with [`notebooks/colab_train_bert.ipynb`](notebooks/colab_train_bert.ipynb):
 
 1. In Colab: *File → Open notebook → GitHub*, paste this repo's URL and open `notebooks/colab_train_bert.ipynb`.
-2. *Runtime → Change runtime type → T4 GPU*, then run the cells in order. The notebook mounts Google Drive, clones the repo, installs the pinned requirements (except torch, which Colab provides), rebuilds the data, checks that the split is identical to the local one, and trains.
+2. *Runtime → Change runtime type → T4 GPU*, then run the cells in order. The notebook mounts Google Drive, clones the repo, installs the pinned requirements (except torch, which Colab provides), rebuilds the data, checks that the split is identical to the local one, and trains. Each training cell stops at once if Drive is not mounted, and lists the files it saved on Drive. After a disconnect, the notebook's first cell says which steps to rerun.
 3. Results are saved to `MyDrive/SanteNLP/`. Copy them into the project; with Google Drive for desktop:
    ```powershell
    Copy-Item -Recurse "G:\My Drive\SanteNLP\outputs\runs\*" outputs\runs\

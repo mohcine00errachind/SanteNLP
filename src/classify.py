@@ -38,6 +38,7 @@ from transformers import (
 )
 from transformers.utils import logging as hf_logging
 
+from src.colab import check_output_dir
 from src.data import load_mtsamples_splits, resplit_train_val, stratified_subset
 from src.evaluate import classification_metrics
 from src.utils import ROOT, RUNS_DIR, git_commit, load_config, save_run, set_seed
@@ -168,6 +169,7 @@ def run_strategy(cfg: dict, strategy: str, splits: dict, model_dir: Path | None)
             train, val, test, labels, cfg, strategy, cfg["seed"], ckpt)
         if model_dir is not None:
             save_classifier(trainer, model_dir / strategy, cfg, strategy)
+            print(f"[{strategy}] main model saved to {(model_dir / strategy).resolve()}", flush=True)
     main = {"train_size": len(train), "val_macro_f1": val_f1, "history": history,
             "test": classification_metrics(test["label"], test_pred, labels)}
     print(f"[{strategy}] main: val macro-F1 = {val_f1:.3f}, test macro-F1 = {main['test']['macro_f1']:.3f}", flush=True)
@@ -245,6 +247,10 @@ def main() -> None:
     parser.add_argument("--runs-dir", default=None, help="where run folders go (Colab: a Google Drive folder)")
     parser.add_argument("--model-dir", default=None, help="where the main models go (Colab: a Google Drive folder)")
     args = parser.parse_args()
+    # Check the output folders before any training, not after hours of it
+    for folder in (args.runs_dir, args.model_dir):
+        if folder is not None:
+            check_output_dir(folder)
 
     hf_logging.set_verbosity_error()  # hide the expected "sequence longer than 512" warnings
     cfg = load_config(args.config)
@@ -273,7 +279,7 @@ def main() -> None:
         predictions.to_csv(run_dir / "test_predictions.csv", index=False)
         std = metrics["test_macro_f1_std"]
         print(f"[{strategy}] test macro-F1 over seeds = {metrics['test_macro_f1_mean']:.3f}"
-              + (f" ± {std:.3f}" if std is not None else "") + f" | saved {run_dir}", flush=True)
+              + (f" ± {std:.3f}" if std is not None else "") + f" | saved {run_dir.resolve()}", flush=True)
 
     if args.smoke:  # check that a saved model loads and predicts
         tokenizer, model, settings = load_classifier(model_dir / cfg["strategies"][0])
