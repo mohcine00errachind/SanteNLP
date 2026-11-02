@@ -1,0 +1,26 @@
+name: bert_specialty
+model_name: emilyalsentzer/Bio_ClinicalBERT
+model_revision: d5892b39a4adaed74b92212a44081509db72f87b
+seed: 42
+seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
+subset_size: null
+eval_subset_size: null
+strategies:
+- head_tail
+max_length: 512
+head_tokens: 128
+training:
+  epochs: 4
+  learning_rate: 2.0e-05
+  batch_size: 16
+  eval_batch_size: 32
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: true
+model_dir: models/bert_specialty
+git_commit: e6eea03fe590607fe0f27e4142af06d1213afe75

@@ -16,7 +16,7 @@ An NLP pipeline for English medical reports:
 | 1. Data / EDA | done |
 | 2. Baseline | done |
 | 3. NER | done |
-| 4. BERT classification | code ready, training on Colab |
+| 4. BERT classification | done |
 | 5. Evaluation | — |
 | 6. Streamlit app | — |
 | 7. README / tests | — |
@@ -32,6 +32,7 @@ python -m src.baseline --config configs/baseline.yaml   # add --subset 200 for a
 python -m src.ner --config configs/ner.yaml                              # dictionary + spaCy NER (~10 min, CPU)
 python -m src.ner --config configs/ner.yaml --vectors en_core_web_md     # same, with word vectors
 python -m src.classify --smoke                  # BERT: tiny CPU check (full training: Colab, below)
+python -m src.compare --config configs/compare.yaml   # BERT vs baseline (needs the BERT runs and models)
 pytest
 ```
 
@@ -44,8 +45,10 @@ Fine-tuning needs a GPU, so it runs on Google Colab with [`notebooks/colab_train
 3. Results are saved to `MyDrive/SanteNLP/`. Copy them into the project; with Google Drive for desktop:
    ```powershell
    Copy-Item -Recurse "G:\My Drive\SanteNLP\outputs\runs\*" outputs\runs\
-   Copy-Item -Recurse "G:\My Drive\SanteNLP\models\bert_specialty" models\
+   New-Item -ItemType Directory -Force models\bert_specialty
+   Copy-Item -Recurse "G:\My Drive\SanteNLP\models\bert_specialty\*" models\bert_specialty\
    ```
+   The models must end up in `models/bert_specialty/head` and `models/bert_specialty/head_tail`.
 
 Data is downloaded by `src/data.py` into `data/` and is never committed.
 EDA: [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb).
@@ -133,10 +136,11 @@ All scores are on the same fixed test set (193 reports).
 
 | Model | Test macro-F1 (5 seeds) | Test macro-F1 (main model) | Accuracy (main) |
 |---|---:|---:|---:|
-| TF-IDF + logistic regression | **0.940 ± 0.003** | 0.954 | 0.948 |
-| Bio_ClinicalBERT | *Phase 4* | | |
+| TF-IDF + logistic regression | 0.940 ± 0.003 | 0.954 | 0.948 |
+| Bio_ClinicalBERT, `head` (first 510 tokens) | **0.968 ± 0.002** | **0.961** | **0.959** |
+| Bio_ClinicalBERT, `head_tail` (first 128 + last 382 tokens) | 0.954 ± 0.008 | 0.954 | 0.953 |
 
-**How the seeds work.** TF-IDF + logistic regression is deterministic: on the same data, every seed gives exactly the same model (checked in `tests/test_baseline.py`). The seeds therefore vary the *data* instead. Each seed draws a new stratified train/val split from the saved train+val reports, and the test set stays fixed. The ± is the sample standard deviation over the 5 seeds. BERT will use the same 5 train/val splits.
+**How the seeds work.** TF-IDF + logistic regression is deterministic: on the same data, every seed gives exactly the same model (checked in `tests/test_baseline.py`). The seeds therefore vary the *data* instead. Each seed draws a new stratified train/val split from the saved train+val reports, and the test set stays fixed. The ± is the sample standard deviation over the 5 seeds. BERT uses the same 5 train/val splits, so for each seed BERT and the baseline are trained on exactly the same reports.
 
 **Baseline setup.** Word unigrams and bigrams, `sublinear_tf`, `min_df=2`, balanced class weights. C is chosen on the val split from {0.1, 1, 10, 100, 1000}; the main model picks C = 100. Config: [`configs/baseline.yaml`](configs/baseline.yaml).
 
@@ -156,6 +160,66 @@ All scores are on the same fixed test set (193 reports).
 **What the baseline tells us**
 - **The task is easy for a bag-of-words model.** Specialties have very distinctive vocabulary (colonoscopy, carpal tunnel, fetal). This is not caused by duplicates: no test report is closer than cosine 0.86 to any training report. BERT has little room to improve, and with 193 test reports, one error is worth about 0.5 points.
 - **All 10 errors are non-operative reports.** The error rate is 0% on the 86 operative test reports and 9.3% (10 / 107) on the non-operative ones (consults, follow-ups). These notes contain long general histories and get pulled toward Cardio (5 errors) or Neurology (3 errors), the one class made only of non-operative notes. This is the report-type effect seen in the EDA.
+
+### BERT vs baseline (Phase 4)
+
+**Setup.** [Bio_ClinicalBERT](https://huggingface.co/emilyalsentzer/Bio_ClinicalBERT) (pinned revision) with a classification layer, fine-tuned for 4 epochs (learning rate 2e-5, batch 16, fp16) on a Colab T4 GPU. The epoch with the best val macro-F1 is kept. Config: [`configs/classify.yaml`](configs/classify.yaml). For long reports, `head` keeps the first 510 tokens; `head_tail` keeps the first 128 and the last 382. The comparison below is made by [`src/compare.py`](src/compare.py) from the saved test predictions (config: [`configs/compare.yaml`](configs/compare.yaml)).
+
+**Reproducibility check.** BERT was trained twice on Colab. The first run's files were lost (a notebook bug wrote them to the Colab machine instead of Google Drive), but its scores were in the Colab log. Same code, data and seeds, retrained from scratch:
+
+| | First run (log only) | Second run (saved, used here) |
+|---|---:|---:|
+| `head`, 5 seeds | 0.968 ± 0.004 | 0.968 ± 0.002 |
+| `head`, main model | 0.961 | 0.961 |
+| `head_tail`, 5 seeds | 0.953 ± 0.010 | 0.954 ± 0.008 |
+
+GPU training is not bit-for-bit deterministic (fp16, GPU kernels), so small differences are expected. They are well within the seed std.
+
+**Overall.** `head` beats the baseline in every seed: 6–7 test errors against 12–13 for the baseline on the same split. That is +0.028 macro-F1 on average (0.968 vs 0.940), about 10× the seed std. Three caveats:
+- **On the main split the gap is small:** 0.961 vs 0.954 (8 vs 10 errors). This split happens to suit the baseline: its main score (0.954) is above all 5 of its seed scores.
+- **No single comparison is statistically significant.** Only reports where exactly one model is right count in a McNemar test. On the main models that is 6 against 4 reports (p = 0.75); per seed, p is 0.11–0.23. The seed std only measures training randomness, not the choice of the 193 test reports. A gain of about 6 reports is consistent across seeds, but too small to be certain with this test set.
+- `head_tail` (0.954 ± 0.008) is not clearly better than the baseline.
+
+**By report type.** As planned, the comparison is also made on the 107 non-operative test reports, where all 10 baseline errors are. Macro-F1 on a subset is averaged over the classes present in it (there is no operative Neurology report).
+
+| Test reports | Baseline (5 seeds) | `head` (5 seeds) | `head_tail` (5 seeds) |
+|---|---:|---:|---:|
+| Non-operative (107) | 0.904 ± 0.014, 10–13 errors | **0.949 ± 0.006**, 5–7 errors | 0.928 ± 0.009, 7–10 errors |
+| Operative (86) | 0.991 ± 0.010, 0–2 errors | 0.996 ± 0.006, 0–1 errors | 0.998 ± 0.005, 0–1 errors |
+| Longer than 510 tokens (127) | 0.923 ± 0.009 | **0.967 ± 0.005** | 0.948 ± 0.012 |
+| Up to 510 tokens (66) | 0.971 ± 0.006 | 0.978 ± 0.004 | 0.965 ± 0.015 |
+
+Almost all of BERT's gain is on non-operative reports, where the baseline was weak. Operative reports were already nearly perfect for every model. BERT `head` also gains most on long reports, even though it reads only their first 510 tokens while the baseline reads everything.
+
+**The 10 baseline errors** (main models; "seeds" = how many of the 5 seed models get the report right):
+
+| Test row | True specialty | Baseline | `head` (seeds right) | `head_tail` (seeds right) |
+|---:|---|---|---|---|
+| 26 | Urology | Cardio | ✅ (5/5) | ✅ (5/5) |
+| 67 | Gastroenterology | Cardio | ✅ (4/5) | ✅ (0/5) |
+| 80 | Orthopedic | Neurology | ✅ (5/5) | ✅ (5/5) |
+| 136 | Urology | Cardio | ✅ (5/5) | ❌ Neurology (0/5) |
+| 143 | Gastroenterology | Cardio | ✅ (5/5) | ✅ (5/5) |
+| 191 | Gastroenterology | Neurology | ✅ (5/5) | ✅ (5/5) |
+| 125 | Gastroenterology | Cardio | ❌ Cardio (3/5) | ❌ Cardio (5/5) |
+| 52 | Urology | Gastroenterology | ❌ Gastro (0/5) | ❌ Gastro (1/5) |
+| 187 | Urology | Gastroenterology | ❌ Gastro (1/5) | ❌ Gastro (0/5) |
+| 68 | Cardio / Pulmonary | Neurology | ❌ Neurology (0/5) | ❌ Neurology (0/5) |
+
+(Row 125: the main models are wrong, but 3 of 5 `head` seed models and all 5 `head_tail` seed models get it right. Row 67: the `head_tail` main model is right, but none of its seed models are.)
+
+- **BERT `head` fixes 6 and repeats 4.** Five of the fixes hold in all 5 seeds. The baseline's typical error, pulling general non-operative notes toward Cardio, mostly disappears: across the 5 seeds, 29 of the baseline's 61 wrong predictions are Cardio, against 3 of BERT `head`'s 32.
+- **The repeated errors look like hard or ambiguous reports, not model failures.** Rows 52 and 187 are Urology reports seen in an acute setting (flank pain, blood in the urine) that read much like abdominal complaints. Row 68 is labelled Cardio / Pulmonary but describes a neurological emergency (an unresponsive patient with a severe headache); every model and every seed says Neurology.
+- **BERT makes 4 new errors** (reports the baseline gets right), and all 4 are predicted **Gastroenterology**: two Urology reports (kidney stone, follow-up of a circumcision), an Ob/Gyn operation that also removed an abdominal wall mass, and an Orthopedic report that starts with a long family and social history. Across seeds, 19 of BERT `head`'s 32 wrong predictions are Gastroenterology. BERT seems to read "abdomen / flank" as Gastroenterology even when the report belongs to a neighbouring specialty. The baseline's Cardio bias is replaced by a smaller Gastroenterology bias.
+
+**Why `head_tail` is worse than `head`.** The idea was that the end of a report holds the assessment and plan. The data says otherwise:
+- **The beginning of a report carries more specialty information than the end.** We retrained the TF-IDF baseline on only the tokens each strategy keeps (same tokenizer, same 5 seeds). On exactly the text BERT sees, the baseline drops from 0.928 ± 0.008 (`head` window) to 0.914 ± 0.010 (`head_tail` window), and from 0.921 to 0.886 on long reports. At equal length, the first 382 tokens beat the last 382 (0.919 vs 0.904). This test doesn't involve BERT at all, so it isn't training noise.
+- **What is at the beginning and at the end.** In the 549 long training reports, the first 510 tokens hold the headers that name the problem: PREOPERATIVE DIAGNOSIS, PROCEDURE PERFORMED, HISTORY OF PRESENT ILLNESS. The last 382 tokens hold mostly the body-system exam (HEENT, LUNGS, ABDOMEN, EXTREMITIES, NEUROLOGIC), which looks the same in every specialty. IMPRESSION / PLAN is in the tail of only 70 of the 549 (13%). To keep this generic text, `head_tail` drops the middle of the report (everything after token 128 that is not in the last 382), which is often the procedure description or the history.
+- **The general exam may also pull toward Neurology.** Across seeds, 15 of `head_tail`'s wrong predictions are Neurology, against 5 for `head`. This fits the report-type shortcut from the EDA (Neurology is made only of non-operative notes, which end with a general exam), but it is an interpretation, not a test.
+- **The gap is small but consistent.** `head` has fewer errors than `head_tail` on every seed's split (the same split for both), on average 2.4 reports. About a third of that gap is on reports of 510 tokens or fewer, where both strategies see exactly the same text. So part of the gap is training noise, not the shortening. The main models differ on only 7 test reports (4 vs 3).
+- `head_tail` does help on single reports. Row 132 is an Orthopedic report whose opening is a family and social history: `head` gets it wrong in all 5 seeds, `head_tail` gets it right in all 5.
+
+**Kept for the app:** BERT `head` (`models/bert_specialty/head`).
 
 ### Entity extraction (MACCROBAT)
 
@@ -213,15 +277,8 @@ Takeaways for the app:
 
 ## Plan for the next phases
 
-- **Phase 4 — BERT:** fine-tune Bio_ClinicalBERT on Colab. Since 62.6% of reports exceed 512 tokens, compare at least two ways to handle long reports:
-  1. **plain truncation:** keep the first 512 tokens;
-  2. **head + tail:** keep the first and last tokens (e.g. 128 + 382), since the end of a report often holds the assessment and plan;
-  3. *(if time allows)* **chunking:** split the report into 512-token windows and average the predicted probabilities.
-
-  Besides overall macro-F1, compare BERT and the baseline **on the 107 non-operative test reports**, where all 10 baseline errors are, and list which of those 10 errors BERT fixes or repeats.
-
-  *Optional:* fine-tune Bio_ClinicalBERT for **token classification** (SYMPTOM / TREATMENT) on MACCROBAT on Colab, with the same document split, and compare it with the spaCy models and the dictionary.
-- **Phase 5 — Evaluation:** compare every model with the baseline, show confusion matrices, and check the report-type shortcut (scores on operative vs non-operative test reports). If BERT does not clearly beat the baseline, say so plainly, with the reason (distinctive vocabulary, small test set). A difference smaller than the seed std is not an improvement.
+- **Phase 4 — BERT:** done (results above). Not done: **chunking** (split a report into 512-token windows and average the probabilities) and the *optional* Bio_ClinicalBERT token classifier for NER. Since `head` already beats `head_tail` and the beginning of a report holds most of the specialty information, chunking is unlikely to change much.
+- **Phase 5 — Evaluation:** confusion matrices for every model, and an estimate of the uncertainty that comes from the small test set (e.g. a bootstrap over test reports), since the seed std does not include it. Check the Gastroenterology bias of BERT on the confusions between Urology, Ob/Gyn and Gastroenterology. A difference smaller than the seed std is not an improvement.
 - **Phase 6 — Streamlit app:** paste a report, see highlighted entities and the predicted specialty. Includes a **rule-based negation flag**: an entity is marked "negated" when it follows a cue such as "no", "denies" or "negative for" in the same clause. The NER models tag "nausea" in "no nausea" because MACCROBAT annotates negated symptoms too.
 - **Phase 7 — README / tests.**
 
@@ -231,7 +288,7 @@ Takeaways for the app:
 configs/     hyperparameters and data settings (yaml)
 data/        raw/ and processed/ data (not committed)
 notebooks/   01_eda.ipynb, colab_train_bert.ipynb
-src/         utils.py, data.py, baseline.py, evaluate.py, ner.py, classify.py
+src/         utils.py, data.py, baseline.py, evaluate.py, ner.py, classify.py, compare.py, colab.py
 tests/       pytest tests
 outputs/runs/ one folder per experiment: config + metrics
 ```

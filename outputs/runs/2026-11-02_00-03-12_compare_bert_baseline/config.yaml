@@ -1,0 +1,26 @@
+name: compare_bert_baseline
+runs:
+  baseline: outputs/runs/2026-10-29_22-47-52_baseline_tfidf_logreg
+  head: outputs/runs/2026-11-01_23-02-22_bert_specialty_head
+  head_tail: outputs/runs/2026-11-01_23-25-46_bert_specialty_head_tail
+baseline_config: configs/baseline.yaml
+seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
+tokenizer: models/bert_specialty/head
+windows:
+  head510:
+  - 510
+  - 0
+  head_tail:
+  - 128
+  - 382
+  head382:
+  - 382
+  - 0
+  tail382:
+  - 0
+  - 382

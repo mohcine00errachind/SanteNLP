@@ -1,0 +1,26 @@
+# Phase 4 comparison: BERT vs the TF-IDF baseline, and head vs head_tail.
+# Run: python -m src.compare --config configs/compare.yaml
+name: compare_bert_baseline
+
+# Finished runs to compare (their test_predictions.csv and metrics.json)
+runs:
+  baseline: outputs/runs/2026-10-29_22-47-52_baseline_tfidf_logreg
+  head: outputs/runs/2026-11-01_23-02-22_bert_specialty_head
+  head_tail: outputs/runs/2026-11-01_23-25-46_bert_specialty_head_tail
+
+# The baseline run only saved the main model's predictions, so its per-seed
+# predictions are recomputed (deterministic) and checked against its metrics.
+baseline_config: configs/baseline.yaml
+seeds: [0, 1, 2, 3, 4]
+
+# Same tokenizer as BERT, to count tokens and cut the token windows below
+tokenizer: models/bert_specialty/head
+
+# Window test: train the TF-IDF baseline on only part of each report, to see
+# where the specialty information is. [first N tokens, last M tokens];
+# a report shorter than N + M is kept whole (as BERT does).
+windows:
+  head510: [510, 0]       # what BERT "head" sees
+  head_tail: [128, 382]   # what BERT "head_tail" sees
+  head382: [382, 0]       # beginning vs end, same length
+  tail382: [0, 382]

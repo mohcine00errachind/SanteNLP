@@ -1,0 +1,573 @@
+{
+  "subsets": {
+    "all": {
+      "n_reports": 193,
+      "baseline": {
+        "main_macro_f1": 0.9535,
+        "main_errors": 10,
+        "seeds_macro_f1_mean": 0.9403,
+        "seeds_macro_f1_std": 0.0028,
+        "seeds_errors": [
+          13,
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "head": {
+        "main_macro_f1": 0.9609,
+        "main_errors": 8,
+        "seeds_macro_f1_mean": 0.9682,
+        "seeds_macro_f1_std": 0.0023,
+        "seeds_errors": [
+          7,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "head_tail": {
+        "main_macro_f1": 0.9536,
+        "main_errors": 9,
+        "seeds_macro_f1_mean": 0.9539,
+        "seeds_macro_f1_std": 0.008,
+        "seeds_errors": [
+          9,
+          11,
+          8,
+          9,
+          7
+        ]
+      }
+    },
+    "non_operative": {
+      "n_reports": 107,
+      "baseline": {
+        "main_macro_f1": 0.9255,
+        "main_errors": 10,
+        "seeds_macro_f1_mean": 0.9038,
+        "seeds_macro_f1_std": 0.0142,
+        "seeds_errors": [
+          13,
+          11,
+          12,
+          11,
+          10
+        ]
+      },
+      "head": {
+        "main_macro_f1": 0.9432,
+        "main_errors": 7,
+        "seeds_macro_f1_mean": 0.9485,
+        "seeds_macro_f1_std": 0.006,
+        "seeds_errors": [
+          7,
+          5,
+          6,
+          6,
+          6
+        ]
+      },
+      "head_tail": {
+        "main_macro_f1": 0.9345,
+        "main_errors": 8,
+        "seeds_macro_f1_mean": 0.9282,
+        "seeds_macro_f1_std": 0.0093,
+        "seeds_errors": [
+          9,
+          10,
+          8,
+          9,
+          7
+        ]
+      }
+    },
+    "operative": {
+      "n_reports": 86,
+      "baseline": {
+        "main_macro_f1": 1.0,
+        "main_errors": 0,
+        "seeds_macro_f1_mean": 0.9907,
+        "seeds_macro_f1_std": 0.0102,
+        "seeds_errors": [
+          0,
+          1,
+          0,
+          1,
+          2
+        ]
+      },
+      "head": {
+        "main_macro_f1": 0.9894,
+        "main_errors": 1,
+        "seeds_macro_f1_mean": 0.9958,
+        "seeds_macro_f1_std": 0.0058,
+        "seeds_errors": [
+          0,
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      "head_tail": {
+        "main_macro_f1": 0.9894,
+        "main_errors": 1,
+        "seeds_macro_f1_mean": 0.9979,
+        "seeds_macro_f1_std": 0.0047,
+        "seeds_errors": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "longer_than_510_tokens": {
+      "n_reports": 127,
+      "baseline": {
+        "main_macro_f1": 0.9434,
+        "main_errors": 7,
+        "seeds_macro_f1_mean": 0.9229,
+        "seeds_macro_f1_std": 0.0088,
+        "seeds_errors": [
+          10,
+          8,
+          9,
+          9,
+          9
+        ]
+      },
+      "head": {
+        "main_macro_f1": 0.9488,
+        "main_errors": 6,
+        "seeds_macro_f1_mean": 0.9668,
+        "seeds_macro_f1_std": 0.0055,
+        "seeds_errors": [
+          5,
+          4,
+          5,
+          3,
+          4
+        ]
+      },
+      "head_tail": {
+        "main_macro_f1": 0.9348,
+        "main_errors": 8,
+        "seeds_macro_f1_mean": 0.9478,
+        "seeds_macro_f1_std": 0.0122,
+        "seeds_errors": [
+          6,
+          8,
+          5,
+          6,
+          4
+        ]
+      }
+    },
+    "up_to_510_tokens": {
+      "n_reports": 66,
+      "baseline": {
+        "main_macro_f1": 0.9733,
+        "main_errors": 3,
+        "seeds_macro_f1_mean": 0.9706,
+        "seeds_macro_f1_std": 0.0061,
+        "seeds_errors": [
+          3,
+          4,
+          3,
+          3,
+          3
+        ]
+      },
+      "head": {
+        "main_macro_f1": 0.9797,
+        "main_errors": 2,
+        "seeds_macro_f1_mean": 0.9781,
+        "seeds_macro_f1_std": 0.0035,
+        "seeds_errors": [
+          2,
+          2,
+          2,
+          3,
+          2
+        ]
+      },
+      "head_tail": {
+        "main_macro_f1": 0.9899,
+        "main_errors": 1,
+        "seeds_macro_f1_mean": 0.9649,
+        "seeds_macro_f1_std": 0.0154,
+        "seeds_errors": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      }
+    }
+  },
+  "errors": {
+    "baseline_errors": [
+      {
+        "test_row": 26,
+        "label": "Urology",
+        "operative": false,
+        "n_tokens": 432,
+        "baseline_pred": "Cardiovascular / Pulmonary",
+        "head_pred": "Urology",
+        "head_tail_pred": "Urology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 5,
+        "head_tail_seeds_right": 5
+      },
+      {
+        "test_row": 52,
+        "label": "Urology",
+        "operative": false,
+        "n_tokens": 325,
+        "baseline_pred": "Gastroenterology",
+        "head_pred": "Gastroenterology",
+        "head_tail_pred": "Gastroenterology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 0,
+        "head_tail_seeds_right": 1
+      },
+      {
+        "test_row": 67,
+        "label": "Gastroenterology",
+        "operative": false,
+        "n_tokens": 491,
+        "baseline_pred": "Cardiovascular / Pulmonary",
+        "head_pred": "Gastroenterology",
+        "head_tail_pred": "Gastroenterology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 4,
+        "head_tail_seeds_right": 0
+      },
+      {
+        "test_row": 68,
+        "label": "Cardiovascular / Pulmonary",
+        "operative": false,
+        "n_tokens": 998,
+        "baseline_pred": "Neurology",
+        "head_pred": "Neurology",
+        "head_tail_pred": "Neurology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 0,
+        "head_tail_seeds_right": 0
+      },
+      {
+        "test_row": 80,
+        "label": "Orthopedic",
+        "operative": false,
+        "n_tokens": 652,
+        "baseline_pred": "Neurology",
+        "head_pred": "Orthopedic",
+        "head_tail_pred": "Orthopedic",
+        "baseline_seeds_right": 2,
+        "head_seeds_right": 5,
+        "head_tail_seeds_right": 5
+      },
+      {
+        "test_row": 125,
+        "label": "Gastroenterology",
+        "operative": false,
+        "n_tokens": 638,
+        "baseline_pred": "Cardiovascular / Pulmonary",
+        "head_pred": "Cardiovascular / Pulmonary",
+        "head_tail_pred": "Cardiovascular / Pulmonary",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 3,
+        "head_tail_seeds_right": 5
+      },
+      {
+        "test_row": 136,
+        "label": "Urology",
+        "operative": false,
+        "n_tokens": 1084,
+        "baseline_pred": "Cardiovascular / Pulmonary",
+        "head_pred": "Urology",
+        "head_tail_pred": "Neurology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 5,
+        "head_tail_seeds_right": 0
+      },
+      {
+        "test_row": 143,
+        "label": "Gastroenterology",
+        "operative": false,
+        "n_tokens": 717,
+        "baseline_pred": "Cardiovascular / Pulmonary",
+        "head_pred": "Gastroenterology",
+        "head_tail_pred": "Gastroenterology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 5,
+        "head_tail_seeds_right": 5
+      },
+      {
+        "test_row": 187,
+        "label": "Urology",
+        "operative": false,
+        "n_tokens": 742,
+        "baseline_pred": "Gastroenterology",
+        "head_pred": "Gastroenterology",
+        "head_tail_pred": "Gastroenterology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 1,
+        "head_tail_seeds_right": 0
+      },
+      {
+        "test_row": 191,
+        "label": "Gastroenterology",
+        "operative": false,
+        "n_tokens": 808,
+        "baseline_pred": "Neurology",
+        "head_pred": "Gastroenterology",
+        "head_tail_pred": "Gastroenterology",
+        "baseline_seeds_right": 0,
+        "head_seeds_right": 5,
+        "head_tail_seeds_right": 5
+      }
+    ],
+    "head": {
+      "fixes_baseline_errors": 6,
+      "repeats_baseline_errors": 4,
+      "new_errors": [
+        {
+          "test_row": 96,
+          "label": "Urology",
+          "operative": false,
+          "n_tokens": 527,
+          "baseline_pred": "Urology",
+          "head_pred": "Gastroenterology",
+          "head_tail_pred": "Urology",
+          "baseline_seeds_right": 3,
+          "head_seeds_right": 4,
+          "head_tail_seeds_right": 4
+        },
+        {
+          "test_row": 132,
+          "label": "Orthopedic",
+          "operative": false,
+          "n_tokens": 1533,
+          "baseline_pred": "Orthopedic",
+          "head_pred": "Gastroenterology",
+          "head_tail_pred": "Orthopedic",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 0,
+          "head_tail_seeds_right": 5
+        },
+        {
+          "test_row": 142,
+          "label": "Urology",
+          "operative": false,
+          "n_tokens": 333,
+          "baseline_pred": "Urology",
+          "head_pred": "Gastroenterology",
+          "head_tail_pred": "Urology",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 0,
+          "head_tail_seeds_right": 1
+        },
+        {
+          "test_row": 180,
+          "label": "Obstetrics / Gynecology",
+          "operative": true,
+          "n_tokens": 706,
+          "baseline_pred": "Obstetrics / Gynecology",
+          "head_pred": "Gastroenterology",
+          "head_tail_pred": "Gastroenterology",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 3,
+          "head_tail_seeds_right": 4
+        }
+      ],
+      "mcnemar_vs_baseline": {
+        "a_only_right": 4,
+        "b_only_right": 6,
+        "p_value": 0.7539
+      },
+      "mcnemar_vs_baseline_per_seed": {
+        "0": {
+          "a_only_right": 3,
+          "b_only_right": 9,
+          "p_value": 0.146
+        },
+        "1": {
+          "a_only_right": 3,
+          "b_only_right": 9,
+          "p_value": 0.146
+        },
+        "2": {
+          "a_only_right": 3,
+          "b_only_right": 8,
+          "p_value": 0.2266
+        },
+        "3": {
+          "a_only_right": 2,
+          "b_only_right": 8,
+          "p_value": 0.1094
+        },
+        "4": {
+          "a_only_right": 3,
+          "b_only_right": 9,
+          "p_value": 0.146
+        }
+      }
+    },
+    "head_tail": {
+      "fixes_baseline_errors": 5,
+      "repeats_baseline_errors": 5,
+      "new_errors": [
+        {
+          "test_row": 134,
+          "label": "Neurology",
+          "operative": false,
+          "n_tokens": 1372,
+          "baseline_pred": "Neurology",
+          "head_pred": "Neurology",
+          "head_tail_pred": "Orthopedic",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 4,
+          "head_tail_seeds_right": 1
+        },
+        {
+          "test_row": 135,
+          "label": "Neurology",
+          "operative": false,
+          "n_tokens": 1120,
+          "baseline_pred": "Neurology",
+          "head_pred": "Neurology",
+          "head_tail_pred": "Cardiovascular / Pulmonary",
+          "baseline_seeds_right": 3,
+          "head_seeds_right": 5,
+          "head_tail_seeds_right": 4
+        },
+        {
+          "test_row": 164,
+          "label": "Obstetrics / Gynecology",
+          "operative": false,
+          "n_tokens": 849,
+          "baseline_pred": "Obstetrics / Gynecology",
+          "head_pred": "Obstetrics / Gynecology",
+          "head_tail_pred": "Gastroenterology",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 5,
+          "head_tail_seeds_right": 2
+        },
+        {
+          "test_row": 180,
+          "label": "Obstetrics / Gynecology",
+          "operative": true,
+          "n_tokens": 706,
+          "baseline_pred": "Obstetrics / Gynecology",
+          "head_pred": "Gastroenterology",
+          "head_tail_pred": "Gastroenterology",
+          "baseline_seeds_right": 5,
+          "head_seeds_right": 3,
+          "head_tail_seeds_right": 4
+        }
+      ],
+      "mcnemar_vs_baseline": {
+        "a_only_right": 4,
+        "b_only_right": 5,
+        "p_value": 1.0
+      },
+      "mcnemar_vs_baseline_per_seed": {
+        "0": {
+          "a_only_right": 3,
+          "b_only_right": 7,
+          "p_value": 0.3438
+        },
+        "1": {
+          "a_only_right": 5,
+          "b_only_right": 6,
+          "p_value": 1.0
+        },
+        "2": {
+          "a_only_right": 3,
+          "b_only_right": 7,
+          "p_value": 0.3438
+        },
+        "3": {
+          "a_only_right": 5,
+          "b_only_right": 8,
+          "p_value": 0.5811
+        },
+        "4": {
+          "a_only_right": 2,
+          "b_only_right": 7,
+          "p_value": 0.1797
+        }
+      }
+    },
+    "mcnemar_head_vs_head_tail": {
+      "a_only_right": 4,
+      "b_only_right": 3,
+      "p_value": 1.0
+    },
+    "wrong_predictions_by_class": {
+      "baseline": {
+        "Cardiovascular / Pulmonary": 29,
+        "Gastroenterology": 13,
+        "Neurology": 11,
+        "Orthopedic": 7,
+        "Obstetrics / Gynecology": 1
+      },
+      "head": {
+        "Gastroenterology": 19,
+        "Neurology": 5,
+        "Cardiovascular / Pulmonary": 3,
+        "Obstetrics / Gynecology": 3,
+        "Orthopedic": 1,
+        "Urology": 1
+      },
+      "head_tail": {
+        "Gastroenterology": 17,
+        "Neurology": 15,
+        "Cardiovascular / Pulmonary": 6,
+        "Orthopedic": 4,
+        "Urology": 2
+      }
+    }
+  },
+  "window_test": {
+    "head510": {
+      "first_tokens": 510,
+      "last_tokens": 0,
+      "test_macro_f1_mean": 0.9282,
+      "test_macro_f1_std": 0.0081,
+      "long_reports_macro_f1_mean": 0.9209,
+      "long_reports_macro_f1_std": 0.0053
+    },
+    "head_tail": {
+      "first_tokens": 128,
+      "last_tokens": 382,
+      "test_macro_f1_mean": 0.9145,
+      "test_macro_f1_std": 0.0101,
+      "long_reports_macro_f1_mean": 0.8858,
+      "long_reports_macro_f1_std": 0.0154
+    },
+    "head382": {
+      "first_tokens": 382,
+      "last_tokens": 0,
+      "test_macro_f1_mean": 0.919,
+      "test_macro_f1_std": 0.0084,
+      "long_reports_macro_f1_mean": 0.8982,
+      "long_reports_macro_f1_std": 0.0148
+    },
+    "tail382": {
+      "first_tokens": 0,
+      "last_tokens": 382,
+      "test_macro_f1_mean": 0.9036,
+      "test_macro_f1_std": 0.0078,
+      "long_reports_macro_f1_mean": 0.8724,
+      "long_reports_macro_f1_std": 0.0117
+    }
+  }
+}

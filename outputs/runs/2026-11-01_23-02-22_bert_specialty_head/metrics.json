@@ -1,0 +1,300 @@
+{
+  "strategy": "head",
+  "device": "Tesla T4",
+  "main": {
+    "train_size": 897,
+    "val_macro_f1": 0.9768,
+    "history": [
+      {
+        "epoch": 1,
+        "val_macro_f1": 0.332
+      },
+      {
+        "epoch": 2,
+        "val_macro_f1": 0.8705
+      },
+      {
+        "epoch": 3,
+        "val_macro_f1": 0.9444
+      },
+      {
+        "epoch": 4,
+        "val_macro_f1": 0.9768
+      }
+    ],
+    "test": {
+      "accuracy": 0.9585,
+      "macro_precision": 0.9682,
+      "macro_recall": 0.9583,
+      "macro_f1": 0.9609,
+      "per_class": {
+        "Cardiovascular / Pulmonary": {
+          "precision": 0.98,
+          "recall": 0.98,
+          "f1": 0.98,
+          "support": 50
+        },
+        "ENT - Otolaryngology": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        },
+        "Gastroenterology": {
+          "precision": 0.8182,
+          "recall": 0.9643,
+          "f1": 0.8852,
+          "support": 28
+        },
+        "Neurology": {
+          "precision": 0.9474,
+          "recall": 1.0,
+          "f1": 0.973,
+          "support": 18
+        },
+        "Obstetrics / Gynecology": {
+          "precision": 1.0,
+          "recall": 0.9524,
+          "f1": 0.9756,
+          "support": 21
+        },
+        "Ophthalmology": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 11
+        },
+        "Orthopedic": {
+          "precision": 1.0,
+          "recall": 0.9697,
+          "f1": 0.9846,
+          "support": 33
+        },
+        "Urology": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "support": 20
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "Cardiovascular / Pulmonary",
+          "ENT - Otolaryngology",
+          "Gastroenterology",
+          "Neurology",
+          "Obstetrics / Gynecology",
+          "Ophthalmology",
+          "Orthopedic",
+          "Urology"
+        ],
+        "matrix": [
+          [
+            49,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            27,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            18,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            20,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            32,
+            0
+          ],
+          [
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            16
+          ]
+        ]
+      }
+    }
+  },
+  "seeds": [
+    {
+      "seed": 0,
+      "val_macro_f1": 0.9627,
+      "test_macro_f1": 0.966,
+      "test_accuracy": 0.9637,
+      "history": [
+        {
+          "epoch": 1,
+          "val_macro_f1": 0.3703
+        },
+        {
+          "epoch": 2,
+          "val_macro_f1": 0.9334
+        },
+        {
+          "epoch": 3,
+          "val_macro_f1": 0.9627
+        },
+        {
+          "epoch": 4,
+          "val_macro_f1": 0.9587
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "val_macro_f1": 0.9618,
+      "test_macro_f1": 0.97,
+      "test_accuracy": 0.9689,
+      "history": [
+        {
+          "epoch": 1,
+          "val_macro_f1": 0.347
+        },
+        {
+          "epoch": 2,
+          "val_macro_f1": 0.955
+        },
+        {
+          "epoch": 3,
+          "val_macro_f1": 0.9614
+        },
+        {
+          "epoch": 4,
+          "val_macro_f1": 0.9618
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "val_macro_f1": 0.9454,
+      "test_macro_f1": 0.9655,
+      "test_accuracy": 0.9637,
+      "history": [
+        {
+          "epoch": 1,
+          "val_macro_f1": 0.5452
+        },
+        {
+          "epoch": 2,
+          "val_macro_f1": 0.9201
+        },
+        {
+          "epoch": 3,
+          "val_macro_f1": 0.9316
+        },
+        {
+          "epoch": 4,
+          "val_macro_f1": 0.9454
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "val_macro_f1": 0.9716,
+      "test_macro_f1": 0.9705,
+      "test_accuracy": 0.9689,
+      "history": [
+        {
+          "epoch": 1,
+          "val_macro_f1": 0.4488
+        },
+        {
+          "epoch": 2,
+          "val_macro_f1": 0.9531
+        },
+        {
+          "epoch": 3,
+          "val_macro_f1": 0.9716
+        },
+        {
+          "epoch": 4,
+          "val_macro_f1": 0.9716
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "val_macro_f1": 0.9771,
+      "test_macro_f1": 0.969,
+      "test_accuracy": 0.9689,
+      "history": [
+        {
+          "epoch": 1,
+          "val_macro_f1": 0.2881
+        },
+        {
+          "epoch": 2,
+          "val_macro_f1": 0.9541
+        },
+        {
+          "epoch": 3,
+          "val_macro_f1": 0.9771
+        },
+        {
+          "epoch": 4,
+          "val_macro_f1": 0.9733
+        }
+      ]
+    }
+  ],
+  "test_macro_f1_mean": 0.9682,
+  "test_macro_f1_std": 0.0023
+}
